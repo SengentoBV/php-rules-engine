@@ -10,9 +10,14 @@ class RuleLogicalOperation extends RuleOperation
     public const OP_OR = 'OR';
 
     /**
-     * @var RuleObject[]
+     * @var RuleOperation[]
      */
     public array $children = [];
+
+    public function isLogical(): bool
+    {
+        return true;
+    }
 
     public function isLogicalAnd(): bool
     {

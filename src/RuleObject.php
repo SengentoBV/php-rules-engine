@@ -13,6 +13,14 @@ abstract class RuleObject implements JsonSerializable
 
     public function toArray(): array
     {
-        return get_object_vars($this);
+        $array = get_object_vars($this);
+
+        foreach ($array as $key => $value) {
+            if ($value instanceof RuleObject) {
+                $array[$key] = $value->toArray();
+            }
+        }
+
+        return $array;
     }
 }

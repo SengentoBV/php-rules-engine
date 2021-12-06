@@ -35,14 +35,23 @@ class RuleValue extends RuleObject
 
     public function toArray(): array
     {
-        if ($this->type === self::TYPE_STATIC) {
-            return $this->value;
-        }
+        /*if ($this->type === self::TYPE_STATIC) {
+            return [$this->value];
+        }*/
 
         return [
           '$type' => $this->type,
           'value' => $this->value instanceof JsonSerializable ? $this->value->jsonSerialize() : $this->value,
         ];
+    }
+
+    public function jsonSerialize()
+    {
+        if ($this->type === self::TYPE_STATIC) {
+            return $this->value;
+        }
+
+        return parent::jsonSerialize();
     }
 
     public function getValue(array $row)

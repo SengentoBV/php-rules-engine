@@ -4,7 +4,7 @@ namespace SengentoBV\PhpRulesEngine;
 
 use JsonSerializable;
 
-class RuleOperation implements JsonSerializable
+class RuleOperation extends RuleObject
 {
     public string $operator;
     public string $column;
@@ -28,14 +28,9 @@ class RuleOperation implements JsonSerializable
         $this->value = $value instanceof RuleValue ? $value : new RuleValue($value, RuleValue::TYPE_STATIC);
     }
 
-    public function jsonSerialize()
+    public function isLogical(): bool
     {
-        return $this->toArray();
-    }
-
-    public function toArray(): array
-    {
-        return get_object_vars($this);
+        return false;
     }
 
     public static function fromArray(array $array): RuleOperation
