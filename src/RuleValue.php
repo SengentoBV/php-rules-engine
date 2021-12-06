@@ -44,4 +44,13 @@ class RuleValue extends RuleObject
           'value' => $this->value instanceof JsonSerializable ? $this->value->jsonSerialize() : $this->value,
         ];
     }
+
+    public function getValue(array $row)
+    {
+        if ($this->type === self::TYPE_FIELD) {
+            return $row[$this->value] ?? null;
+        }
+
+        return $this->value;
+    }
 }

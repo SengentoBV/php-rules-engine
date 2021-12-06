@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDocMissingThrowsInspection */
 
 namespace SengentoBV\PhpRulesEngine;
 
@@ -10,15 +10,22 @@ class RuleOperation implements JsonSerializable
     public string $column;
 
     /**
-     * @var mixed
+     * @var RuleValue
      */
-    public $value;
+    public RuleValue $value;
 
-    public function __construct(string $operator, string $column, $value)
+
+    /**
+     * @param string $operator
+     * @param string $column
+     * @param $value
+     * @noinspection PhpUnhandledExceptionInspection
+     */
+    public function __construct(string $operator, string $column, $value = null)
     {
         $this->operator = $operator;
         $this->column = $column;
-        $this->value = $value;
+        $this->value = $value instanceof RuleValue ? $value : new RuleValue($value, RuleValue::TYPE_STATIC);
     }
 
     public function jsonSerialize()
@@ -49,8 +56,15 @@ class RuleOperation implements JsonSerializable
 
         if (is_array($array['value']) && isset($array['value']['$type'])) {
             $array['value'] = new RuleValue($array['value']['value'] ?? null, $array['value']['$type']);
-        } // TODO: Always create a RuleValue? also for static? Or also: always unwrap static values?
+        } else {
+            $array['value'] = new RuleValue($array['value']['value'] ?? null, RuleValue::TYPE_STATIC);
+        }
 
         return new RuleOperation($array['operator'], $array['column'], $array['value']);
+    }
+
+    public function getColumnValue(array $row)
+    {
+        return $row[$this->column] ?? null;
     }
 }

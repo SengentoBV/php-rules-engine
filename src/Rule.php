@@ -12,7 +12,7 @@ class Rule extends RuleObject
     }
 
     /**
-     * @param RuleBuilderCallableInterface|callable $rb
+     * @param RuleOperationCallableInterface|callable $rb
      * @return Rule
      */
     public static function build(callable $rb): Rule

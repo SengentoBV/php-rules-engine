@@ -14,6 +14,11 @@ class RuleLogicalOperation extends RuleOperation
      */
     public array $children = [];
 
+    public function isLogicalAnd(): bool
+    {
+        return $this->operator === RuleLogicalOperation::OP_AND;
+    }
+
     /**
      * @param string $operator
      * @param RuleOperation[] $children
