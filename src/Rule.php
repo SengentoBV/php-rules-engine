@@ -24,6 +24,15 @@ class Rule extends RuleObject
 
     public function toArray(): array
     {
+        if ($this->entryPoint->operator === RuleLogicalOperation::OP_AND) {
+            return $this->entryPoint->children;
+        }
+
         return $this->entryPoint->toArray();
+    }
+
+    public static function fromArray(array $array): Rule
+    {
+        return new Rule(RuleLogicalOperation::fromArray($array));
     }
 }

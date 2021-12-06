@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpDocMissingThrowsInspection */
 
 namespace SengentoBV\PhpRulesEngine;
 
@@ -41,10 +41,32 @@ class RuleLogicalOperation extends RuleOperation
 
     public function toArray(): array
     {
-        if ($this->operator === RuleLogicalOperation::OP_AND) {
-            return $this->children;
+        return [$this->operator => $this->children];
+    }
+
+    /**
+     * @param array $array
+     * @return RuleLogicalOperation
+     * @noinspection PhpUnhandledExceptionInspection
+     */
+    public static function fromArray(array $array): RuleLogicalOperation
+    {
+        $operator = 'AND';
+        $children = $array;
+
+        if (array_key_exists(self::OP_AND, $array)) {
+            $operator = self::OP_AND;
+            $children = $array[self::OP_AND];
+            //  return new RuleLogicalOperation(self::OP_OR, $array[self::OP_AND]);
+        }
+        if (array_key_exists(self::OP_OR, $array)) {
+            $operator = self::OP_OR;
+            $children = $array[self::OP_OR];
         }
 
-        return [$this->operator => $this->children];
+        $children = array_map(fn($child) => (isset($child[self::OP_AND]) || isset($child[self::OP_OR])) ? RuleLogicalOperation::fromArray($child) : RuleOperation::fromArray($child), $children);
+
+        // Otherwise AND is assumed
+        return new RuleLogicalOperation($operator, $children);
     }
 }
