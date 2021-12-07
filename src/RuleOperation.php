@@ -28,11 +28,6 @@ class RuleOperation extends RuleObject
         $this->value = $value instanceof RuleValue ? $value : new RuleValue($value, RuleValue::TYPE_STATIC);
     }
 
-    public function isLogical(): bool
-    {
-        return false;
-    }
-
     public static function fromArray(array $array): RuleOperation
     {
         if (count($array) < 3) {

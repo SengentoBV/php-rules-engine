@@ -54,7 +54,7 @@ class RuleValue extends RuleObject
         return parent::jsonSerialize();
     }
 
-    public function getValue(array $row)
+    public function get(array $row)
     {
         if ($this->type === self::TYPE_FIELD) {
             return $row[$this->value] ?? null;

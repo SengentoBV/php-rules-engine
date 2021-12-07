@@ -14,11 +14,6 @@ class RuleLogicalOperation extends RuleOperation
      */
     public array $children = [];
 
-    public function isLogical(): bool
-    {
-        return true;
-    }
-
     public function isLogicalAnd(): bool
     {
         return $this->operator === RuleLogicalOperation::OP_AND;
@@ -61,14 +56,13 @@ class RuleLogicalOperation extends RuleOperation
      */
     public static function fromArray(array $array): RuleLogicalOperation
     {
-        $operator = 'AND';
+        $operator = self::OP_AND;
         $children = $array;
 
         if (array_key_exists(self::OP_AND, $array)) {
-            $operator = self::OP_AND;
             $children = $array[self::OP_AND];
-            //  return new RuleLogicalOperation(self::OP_OR, $array[self::OP_AND]);
         }
+
         if (array_key_exists(self::OP_OR, $array)) {
             $operator = self::OP_OR;
             $children = $array[self::OP_OR];

@@ -16,7 +16,7 @@ $rule = Rule::build(fn(RuleBuilder $rb) => $rb->logicalAnd(
     $rb->logicalAnd(
       $rb->logicalOr(
         $rb->operator('str_contains', 'column3', 'bleh'),
-         $rb->operator('str_contains', 'column3', $rb->field('column1')),
+        $rb->operator('str_contains', 'column3', $rb->field('column1')),
       )
     )
   )
@@ -47,9 +47,9 @@ echo $json2 . PHP_EOL;
 $row = [
   'column1' => 'aaa',
   'column2' => 'b',
-  'column3' => 'bleh',
+  'column3' => 'aaa',
 ];
 $ruleEngine = new RuleEngine();
 $ruleEngine->registerCommonOperators();
-$ruleEngine->registerOperator('str_contains', fn(array $row, RuleOperation $operation) => str_contains2($operation->getColumnValue($row), $operation->value->getValue($row)));
+$ruleEngine->registerOperator('str_contains', fn(array $row, RuleOperation $operation) => str_contains2($operation->getColumnValue($row), $operation->value->get($row)));
 echo $ruleEngine->test($rule, $row) ? 'Matches!' : 'Does not match!';

@@ -8,15 +8,15 @@ class RuleEngine
 
     public function registerCommonOperators()
     {
-        $this->operators['==='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) === $operation->value->getValue($row);
-        $this->operators['=='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) == $operation->value->getValue($row);
-        $this->operators['!='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) != $operation->value->getValue($row);
-        $this->operators['<>'] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) <> $operation->value->getValue($row);
-        $this->operators['!=='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) !== $operation->value->getValue($row);
-        $this->operators['<'] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) < $operation->value->getValue($row);
-        $this->operators['>'] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) > $operation->value->getValue($row);
-        $this->operators['>='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) >=$operation->value->getValue($row);
-        $this->operators['<='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) <= $operation->value->getValue($row);
+        $this->operators['==='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) === $operation->value->get($row);
+        $this->operators['=='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) == $operation->value->get($row);
+        $this->operators['!='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) != $operation->value->get($row);
+        $this->operators['<>'] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) <> $operation->value->get($row);
+        $this->operators['!=='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) !== $operation->value->get($row);
+        $this->operators['<'] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) < $operation->value->get($row);
+        $this->operators['>'] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) > $operation->value->get($row);
+        $this->operators['>='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) >=$operation->value->get($row);
+        $this->operators['<='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) <= $operation->value->get($row);
     }
 
     public function __construct()
