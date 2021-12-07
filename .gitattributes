@@ -1,0 +1,7 @@
+*.txt text eol=lf
+* text=auto eol=lf
+
+/tests export-ignore
+/.gitattributes export-ignore
+/CHANGELOG.md export-ignore
+/README.md export-ignore
