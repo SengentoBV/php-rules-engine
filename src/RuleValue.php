@@ -54,9 +54,18 @@ class RuleValue extends RuleObject
         return parent::jsonSerialize();
     }
 
+    /**
+     * Extract the inner value, either a raw string, or the value of a column extracted from the row.
+     *
+     * @throws RuleColumnMissingException When the column is missing.
+     */
     public function get(array $row)
     {
         if ($this->type === self::TYPE_FIELD) {
+            if (!array_key_exists($this->value, $row)) {
+                throw new RuleColumnMissingException($this->value);
+            }
+
             return $row[$this->value] ?? null;
         }
 

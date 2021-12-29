@@ -17,6 +17,8 @@ class RuleEngine
         $this->operators['>'] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) > $operation->value->get($row);
         $this->operators['>='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) >=$operation->value->get($row);
         $this->operators['<='] = fn(array $row, RuleOperation $operation) => $operation->getColumnValue($row) <= $operation->value->get($row);
+        $this->operators['true'] = fn(array $row, RuleOperation $operation) => true;
+        $this->operators['false'] = fn(array $row, RuleOperation $operation) => false;
     }
 
     public function __construct()
@@ -66,7 +68,12 @@ class RuleEngine
                 continue;
             }
 
-            $testedValid = $child instanceof RuleLogicalOperation ? $this->testLogicalOperation($child, $row) : $this->getOperatorCallback($child->operator)($row, $child);
+            try {
+                $testedValid = $child instanceof RuleLogicalOperation ? $this->testLogicalOperation($child, $row) : $this->getOperatorCallback($child->operator)($row, $child);
+            } catch (RuleColumnMissingException $e) {
+                // When a column is missing, we assume it's false
+                $testedValid = false;
+            }
 
             if ($logicalOperation->isLogicalAnd() && !$testedValid) {
                 return false; // Short-circuit

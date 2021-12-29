@@ -53,8 +53,17 @@ class RuleOperation extends RuleObject
         return new RuleOperation($array['operator'], $array['column'], $array['value']);
     }
 
+    /**
+     * Get the column value from the given row.
+     *
+     * @throws RuleColumnMissingException When the column is missing.
+     */
     public function getColumnValue(array $row)
     {
-        return $row[$this->column] ?? null;
+        if (!array_key_exists($this->column, $row)) {
+            throw new RuleColumnMissingException($this->column);
+        }
+
+        return $row[$this->column];
     }
 }
